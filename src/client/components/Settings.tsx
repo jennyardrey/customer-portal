@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppStateContext } from '../../app-state';
+import { Link } from 'react-router-dom';
 
 function CustomerDashboard() {
   const myContextValue = useContext(AppStateContext);
@@ -14,17 +15,10 @@ function CustomerDashboard() {
 
   return (
     <>
-      {incidents.map((inc: any) => (
-        <div key={inc.id}>
-            <p >{inc.building_name}</p>
-            <p >{inc.location_description}</p>
-            <p >{inc.attending_staff}</p>
-            <p >{inc.resolved}</p>
-            <p >{inc.resolution}</p>
-            <p >Find on What Three Words: <a href="#">{inc.whatthreewords}</a></p>
-        </div>
-        
-      ))}
+      <ul>
+        <li><Link to="/dashboard">Back to dashboard</Link></li>
+        <li>Change password</li>
+      </ul>
     </>
   );
 }

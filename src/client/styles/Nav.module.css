@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+}
+.logo {
+    width: 50px;
+}
+.navList {
+    text-decoration: none;
+}
