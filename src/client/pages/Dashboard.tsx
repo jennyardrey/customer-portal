@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { AppStateContext } from '../app-state';
+import { AppStateContext } from '../../app-state';
 import StaffDashboard from '../components/StaffComponent';
 import CustomerDashboard from '../components/CustomerComponent';
 import axios from 'axios';
+import Nav from '../components/Nav';
 
 const Dashboard = () => {
     const contextValue = useContext(AppStateContext);
@@ -16,26 +17,28 @@ const Dashboard = () => {
     const {setUser,  user,  setIncidents, loading, setLoading } = contextValue;
 
     useEffect(() => {
-      const loggedInUser = localStorage.getItem("user");
-      if (loggedInUser) {
-        console.log(loggedInUser)
-        /* const foundUser = loggedInUser;
-        setUser(foundUser); */
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      const loggedInUserObj = JSON.parse(loggedInUser)
+      if (loggedInUserObj) {
+        console.log(loggedInUserObj)
+        const foundUser = loggedInUserObj;
+        setUser(foundUser);
       }
     }, []);
 
     useEffect(() => {
       console.log(user.id)
       getIncidents()
-    }, [])
+    }, [user])
 
     const getIncidents = async () => {
       setLoading(true)
       try {
         const incidents = await axios.get(`http://localhost:3001/api/users/${user.id}/incidents`)
         
-          
-        setIncidents(incidents.data)
+          const jsonIncidents = JSON.stringify(incidents)
+          localStorage.setItem('storedIncidents', jsonIncidents)
+          setIncidents(incidents.data)
        setLoading(false)
       } catch (error) {
         console.error('error: ', error)
@@ -48,6 +51,7 @@ const Dashboard = () => {
     } else {
       return (
         <div>
+          <Nav />
           {user.role === 'staff' ? (
             <StaffDashboard />
           ) : user.role === 'customer' ? (

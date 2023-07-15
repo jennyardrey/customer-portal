@@ -2,7 +2,7 @@ import React, { useContext, useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {AppStateContext} from '../app-state'
+import {AppStateContext} from '../../app-state'
 import styles from "../styles/Login.module.css"
 
 
@@ -40,7 +40,10 @@ const Login = () => {
       console.log(data);
   
       if (response.status === 200) {
-        localStorage.setItem('user', data.user);
+        console.log(data.user)
+        const userJson = JSON.stringify(data.user)
+        localStorage.setItem('loggedInUser', userJson);
+        console.log(userJson)
         setUser(data.user)
 
         alert('Login successful.');

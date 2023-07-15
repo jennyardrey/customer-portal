@@ -1,6 +1,7 @@
 import React, { createContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 
-interface User {
+export interface User {
   username: string | null | undefined;
   role: string | null | undefined;
   id: number | null | undefined;
@@ -30,6 +31,7 @@ interface AppState {
   setIncidents: Dispatch<SetStateAction<Incident[]>>
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  handleLogout: (navigate: NavigateFunction) => Promise<void>;
 }
 
 interface AppStateContextValue extends AppState {}
@@ -52,6 +54,28 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [loading, setLoading] = useState<boolean>(false)
 
+
+  const handleLogout = async (navigate:NavigateFunction) => {
+    try {
+        localStorage.clear();
+        setUser(prevState => ({
+            username: null,
+            role: null,
+            id: null,
+            email: null,
+            incidents: []
+          }));
+          setIncidents([])
+        alert('You have successfully logged out :)')
+        navigate('/login')
+
+    } catch (error) {
+        console.error(error)
+        alert('An error occurred')
+        return
+    }
+  }
+
   const contextValue: AppStateContextValue = {
     user,
     setUser,
@@ -60,8 +84,11 @@ export const AppStateProvider: React.FC<AppStateProviderProps> = ({ children }) 
     incidents,
     setIncidents,
     loading,
-    setLoading
+    setLoading, 
+    handleLogout
   };
+
+  
 
   return (
     <AppStateContext.Provider value={contextValue}>

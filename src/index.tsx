@@ -1,11 +1,13 @@
-import { StrictMode } from "react";
-import { render } from 'react-dom';
-import App from "./client/App";
-import React from "react";
+import { createRoot } from 'react-dom/client';
+import App from './client/App';
+import React from 'react';
+import { AppStateProvider } from './app-state';
 
-render(
-  <StrictMode>
+
+createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+     <AppStateProvider>
     <App />
-  </StrictMode>,
-  document.getElementById("root")
+    </AppStateProvider>
+  </React.StrictMode>
 );

@@ -6,9 +6,9 @@
   "scripts": {
     "test": "jest",
     "start": "node src/api/server.js",
-    "react-start": "PORT=3000 webpack-dev-server --open --mode development --hot",
+    "react-start": "PORT=3000 webpack-dev-server --open --mode development --hot --history-api-fallback",
     "client": "cd src/client && npm run react-start",
-    "dev": "concurrently \"npm run start\" \"npm run react-start\""
+    "dev": "concurrently \"npm run start\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
